@@ -1,0 +1,8 @@
+apiVersion: helm.openshift.io/v1beta1
+kind: HelmChartRepository
+metadata:
+  name: discovery
+spec:
+  name: Discovery Helm Charts
+  connectionConfig:
+    url: https://quipucords.github.io/discovery-helm-repo/charts
