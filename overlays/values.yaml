@@ -115,7 +115,7 @@ celery-worker:
     remoteTmp: "/var/data/tmp/ansible/remote"
     localTemp: "/var/data/tmp/ansible/local"
   autoscaling:
-    minReplicas: 3
+    minReplicas: 1
   resources:
     requests:
       cpu: 200m
