@@ -1,4 +1,4 @@
-# Discovery Helm Chart Repository
+# Discovery Helm Chart Repository (downstream)
 
 This Helm repository contains the helm charts for the RedHat Discovery product.
 
