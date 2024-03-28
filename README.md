@@ -1,4 +1,4 @@
-# Discovery Helm Chart Repository (downstream)
+# Discovery Helm Chart Repository
 
 This Helm repository contains the helm charts for the RedHat Discovery product.
 
@@ -30,7 +30,46 @@ Within a minute or so then the Discovery Helm Chart will appear in the OpenShift
 ## Installing Discovery using the Helm CLI
 Altenatively, one can download a specific version of the Helm Chart from this repo and install Discovery by using the Helm CLI.
 
-First look at the chart index in this repo to determine which helm chart version to download.
+
+First, login to the OpenShift cluster and create a project for running discovery. For these examples we will use `discovery-qe`:
+
+```
+$ oc login https://api.<your_cluster>:6443 -u kubeadmin -p <kubeadmin_password>
+$ oc new-project discovery-qe
+```
+
+Next, make sure the Helm CLI is installed:
+
+On Mac:
+
+```
+$ brew install helm
+```
+
+For all others, please visit [https://helm.sh/docs/intro/install/]()
+
+For downloading the Discovery image, you need to create a `discovery-pull-secret` that has the credentials needed to access `registry.redhat.io`. The secret can be created using `oc create secret ...` or by using the helper script provided here:
+
+```
+$ mkdir ~/bin
+$ curl -k https://quipucords.github.io/discovery-helm-repo/bin/create_pull_secret.sh \
+      --output ~/bin/create_pull_secret.sh
+$ chmod 755 ~/bin/create_pull_secret.sh
+$ create_pull_secret.sh "discovery-pull-secret"
+
+Registry server - registry.redhat.io:
+Registry username - <user>: <user-email>
+Registry password: ....
+Registry user e-mail - <user-email>:
+
+Add another docker server (y/n)?n
+Creating pull secret discovery-pull-secret ...
+secret/discovery-pull-secret created
+$ 
+```
+
+
+Next, look at the chart index in this repo to determine which helm chart version to download.
 In [Chart Index](https://quipucords.github.io/discovery-helm-repo/charts/index.yaml), find the Helm Chart `version` that reflects the desired `appVersion` of Discovery.
 
 For example, you can see Helm Chart version `0.9.2` pulls in Discovery `1.5.3`.
@@ -49,24 +88,7 @@ discovery/    discovery-0.9.2.tgz
 
 The downloaded and extracted Discovery helm chart 0.9.2 will be in the `discovery` directory
 
-To deploy to your OpenShift cluster, first make sure the Helm CLI is installed:
-
-On Mac:
-
-```
-$ brew install helm
-```
-
-For all others, please visit [https://helm.sh/docs/intro/install/]()
-
-First, login to the OpenShift cluster and set your working project, for these examples we will use `discovery-qe`:
-
-```
-$ oc login https://api.<your_cluster>:6443 -u kubeadmin -p <kubeadmin_password>
-$ oc project discovery-qe
-```
-
-Then, install discovery using the Helm CLI:
+Finally, install discovery using the Helm CLI:
 
 ```
 $ helm install discovery ./discovery --set server.password="EXAMPLE-superadmin1"
