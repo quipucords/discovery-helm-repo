@@ -56,8 +56,10 @@ ingress:
   #      - chart-example.local
 
 pvc:
-  data:
+  db:
     requestStorage: 8Gi
+  data:
+    requestStorage: 4Gi
   log:
     requestStorage: 4Gi
 

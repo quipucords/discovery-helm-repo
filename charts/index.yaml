@@ -3,7 +3,29 @@ entries:
   discovery:
   - apiVersion: v2
     appVersion: 1.5.3
-    created: "2024-03-28T06:09:27.674973-04:00"
+    created: "2024-03-28T06:49:51.146359-04:00"
+    dependencies:
+    - name: db
+      repository: ""
+      version: 1.0.2
+    - name: redis
+      repository: ""
+      version: 1.0.0
+    - name: celery-worker
+      repository: ""
+      version: 0.9.4
+    description: The RedHat Product Discovery tool is designed to help users collect
+      data about their usage of specific Red Hat software.
+    digest: 7a27a229eb1eee2e248e503616b8206f257132f748fe7e60c98c89e2dd47151a
+    icon: https://quipucords.github.io/discovery-helm-repo/charts/discovery/icon.png
+    name: discovery
+    type: application
+    urls:
+    - discovery-0.9.4.tgz
+    version: 0.9.4
+  - apiVersion: v2
+    appVersion: 1.5.3
+    created: "2024-03-28T06:49:51.144299-04:00"
     dependencies:
     - name: db
       repository: ""
@@ -25,7 +47,7 @@ entries:
     version: 0.9.3
   - apiVersion: v2
     appVersion: 1.5.3
-    created: "2024-03-28T06:09:27.674035-04:00"
+    created: "2024-03-28T06:49:51.143422-04:00"
     dependencies:
     - name: db
       repository: ""
@@ -45,4 +67,4 @@ entries:
     urls:
     - discovery-0.9.2.tgz
     version: 0.9.2
-generated: "2024-03-28T06:09:27.672273-04:00"
+generated: "2024-03-28T06:49:51.14229-04:00"
