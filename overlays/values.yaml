@@ -3,7 +3,7 @@
 replicaCount: 1
 
 image:
-  repository: "quay.io/abellott/quipucords"
+  repository: "registry.redhat.io/discovery/discovery-server-rhel9"
   tag: "1.5.3"
   pullPolicy: Always
 
@@ -101,7 +101,7 @@ ansible:
 # Discovery Celery Worker Sub-chart
 celery-worker:
   image:
-    repository: "quay.io/abellott/quipucords"
+    repository: "registry.redhat.io/discovery/discovery-server-rhel9"
     tag: "1.5.3"
     pullPolicy: Always
   podSecurityContext:

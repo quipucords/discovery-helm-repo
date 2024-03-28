@@ -3,7 +3,7 @@ entries:
   discovery:
   - apiVersion: v2
     appVersion: 1.5.3
-    created: "2024-03-27T18:04:12.775761-04:00"
+    created: "2024-03-27T20:41:40.459786-04:00"
     dependencies:
     - name: db
       repository: ""
@@ -16,11 +16,11 @@ entries:
       version: 0.9.2
     description: The RedHat Product Discovery tool is designed to help users collect
       data about their usage of specific Red Hat software.
-    digest: fc0207f9d72cc8b4b7551a64cc4d68ccd1b4cfeb7de93bd51aec420821cd2505
+    digest: 26c2df36661f44c1a9ca687fcad54bd5262631e38664fb112ad5e275752e1d32
     icon: https://quipucords.github.io/discovery-helm-repo/charts/discovery/icon.png
     name: discovery
     type: application
     urls:
     - discovery-0.9.2.tgz
     version: 0.9.2
-generated: "2024-03-27T18:04:12.774671-04:00"
+generated: "2024-03-27T20:41:40.456106-04:00"
