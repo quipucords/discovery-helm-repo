@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "db.fullname" . }}
+  labels:
+    {{- include "db.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "db.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "db.labels" . | nindent 8 }}
+	{{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccount: {{ include "discovery.globalServiceAccountName" . }}
+      serviceAccountName: {{ include "discovery.globalServiceAccountName" . }}
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Release.Name }}-data-volume-claim
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-data-volume-claim
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: {{ .Release.Name }}-data-volume-claim
+            subPath: data
+          readinessProbe:
+            exec:
+              command: [ "/bin/pg_isready", "-U", "postgres" ]
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 45
+          env:
+            - name: POSTGRESQL_USER
+              value: {{ .Values.postgresql.user }}
+            - name: POSTGRESQL_PASSWORD
+              value: {{ .Values.postgresql.password }}
+            - name: POSTGRESQL_DATABASE
+              value: {{ .Values.postgresql.database }}
