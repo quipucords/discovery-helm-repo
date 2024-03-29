@@ -1,171 +1,25 @@
-# Default values for discovery.
-
-replicaCount: 1
+# Overlay values for Discovery
 
 image:
   repository: "registry.redhat.io/discovery/discovery-server-rhel9"
   tag: "1.5.3"
-  pullPolicy: Always
-
-# The image for the Discovery server
-restartPolicy: Always
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
-podLabels: {}
-
-podSecurityContext:
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop: ["ALL"]
-  seccompProfile:
-    type: "RuntimeDefault"
-
-service:
-  name: discovery-server
-  type: ClusterIP
-  port: "8443"
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  pullPolicy: IfNotPresent
 
 pvc:
   db:
-    requestStorage: 8Gi
+    requestStorage: 32Gi
   data:
-    requestStorage: 4Gi
+    requestStorage: 8Gi
   log:
     requestStorage: 4Gi
 
-autoscaling:
-  enabled: false
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-server:
-  # The admin user account for the Discovery server.
-  username: "admin"
-  # The following variables are required if the current secret does not exist
-  # and needs to be created upon initial deployment.
-  # The password for the admin user account of the Discovery server.
-  password: null
-  # The Django App secret key
-  djangoSecretKey: "development"
-  timeout: "5"
-  # For production tags (not latest), we want debugpy disabled.
-  debugpy: "0"
-  log:
-    allEnvVarsAtStartup: "False"
-
-network:
-  connect:
-    jobTimeout: 6
-  inspect:
-    jobTimeout: 600
-
-ansible:
-  # The path for the ansible remote temp directory (overrides /.ansible/tmp).
-  remoteTmp: "/var/data/tmp/ansible/remote"
-  # The path for the ansible temp directory (overrides /.ansible/tmp).
-  localTemp: "/var/data/tmp/ansible/local"
-  logLevel: "3"
-
-# Discovery Celery Worker Sub-chart
 celery-worker:
   image:
     repository: "registry.redhat.io/discovery/discovery-server-rhel9"
     tag: "1.5.3"
-    pullPolicy: Always
-  podSecurityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop: ["ALL"]
-    seccompProfile:
-      type: "RuntimeDefault"
-  ansible:
-    remoteTmp: "/var/data/tmp/ansible/remote"
-    localTemp: "/var/data/tmp/ansible/local"
+    pullPolicy: IfNotPresent
   autoscaling:
     minReplicas: 1
-  resources:
-    requests:
-      cpu: 200m
-      memory: 512Mi
-    limits:
-      cpu: 400m
-      memory: 1024Mi
 
-# Discovery REDIS Sub-chart
-redis:
-  image:
-    pullPolicy: IfNotPresent
-  podSecurityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop: ["ALL"]
-    seccompProfile:
-      type: "RuntimeDefault"
-  service:
-    port: "6379"
-
-# Discovery PostgreSQL Sub-chart
-db:
-  image:
-    pullPolicy: IfNotPresent
-  podSecurityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop: ["ALL"]
-    seccompProfile:
-      type: "RuntimeDefault"
-  service:
-    port: "5432"
-  postgresql:
-    database: "qpc"
-    user: "qpc"
-    password: "qpc"
-
-# Globals shared with the Sub-charts
 global:
-  # the Redis service password
-  redisPassword: "qpc"
-  # The pullSecret for the discovery
-  imagePullSecrets:
-  - name: discovery-pull-secret
-  # The path for the Django secret
-  djangoSecretPath: "/var/data/secret.txt"
-  # Enable Celery Scan Manager
   enableCeleryScanManager: "0"
