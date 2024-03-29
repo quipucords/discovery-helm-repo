@@ -7,11 +7,11 @@ image:
 
 pvc:
   db:
-    requestStorage: 32Gi
+    requestStorage: 8Gi
   data:
     requestStorage: 8Gi
   log:
-    requestStorage: 4Gi
+    requestStorage: 8Gi
 
 celery-worker:
   image:
