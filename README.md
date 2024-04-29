@@ -74,7 +74,7 @@ In [Chart Index](https://quipucords.github.io/discovery-helm-repo/charts/index.y
 
 For example, you can see Helm Chart version `0.9.2` pulls in Discovery `1.5.3`.
 
-Then download the appropriate 
+Then download the appropriate helm chart.
 
 ```
 $ mkdir -p ~/discovery-helm
