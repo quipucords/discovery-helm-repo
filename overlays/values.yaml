@@ -2,7 +2,7 @@
 
 image:
   repository: "registry.redhat.io/discovery/discovery-server-rhel9"
-  tag: "1.5.3"
+  tag: "1.7.0"
   pullPolicy: IfNotPresent
 
 pvc:
@@ -16,7 +16,7 @@ pvc:
 celery-worker:
   image:
     repository: "registry.redhat.io/discovery/discovery-server-rhel9"
-    tag: "1.5.3"
+    tag: "1.7.0"
     pullPolicy: IfNotPresent
   autoscaling:
     minReplicas: 1
